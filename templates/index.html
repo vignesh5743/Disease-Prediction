@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disease Prediction System</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-image: url('static/bg3.jpg');
+            /* background-size: cover; */
+            background-position: center;
+            background-color: rgba(0, 0, 0, 0.6);
+            background-blend-mode: overlay;
+            font-family: 'Arial', sans-serif;
+            color: #000000;
+        }
+
+        /* Logo and Header */
+        .logo {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .logo img {
+            width: 50px;
+            height: 50px;
+            margin-right: 15px;
+            border-radius: 50%;
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #000000;
+        }
+
+        /* Container Styling */
+        .container {
+            margin-top: 30px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .title-symptoms {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #000000;
+            text-align: center;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .symptoms-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        /* Form Styling */
+        .form-container {
+            flex: 1;
+            min-width: 350px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .form-control {
+            border-radius: 8px;
+            padding: 10px;
+            font-size: 1rem;
+        }
+
+        .btn {
+            background-color: rgba(16, 4, 95, 0.7);
+            border: none;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 1rem;
+            color: white;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .btn:hover {
+            background-color: rgba(16, 4, 95, 0.5);
+            transform: scale(1.05);
+        }
+
+        /* Symptoms List Styling */
+        .symptoms-list-container {
+            flex: 2;
+            min-width: 400px;
+        }
+
+        .symptoms-list {
+            column-count: 2;
+            column-gap: 40px;
+        }
+
+        .symptoms-group {
+            margin-bottom: 20px;
+        }
+
+        .symptoms-group h3 {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #000000;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+            margin-bottom: 10px;
+            text-decoration: underline;
+
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            font-size: 1rem;
+            padding: 5px 0;
+            color: #000000;
+        }
+
+        /* Footer Styling */
+        .footer {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 2px;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #f8f9fa;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .symptoms-container {
+                flex-direction: column;
+            }
+
+            .symptoms-list {
+                column-count: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="logo">
+        <img src="static/logo.jpg" alt="Logo">
+        <h1><span style="color: #f8f9fa;">Disease Prediction System And Diet Measures . . . </span></h1>
+    </div>
+    <div class="container">
+        <div class="symptoms-container">
+            <!-- Prediction Form -->
+            <div class="form-container">
+                <div class="card">
+                    <form id="prediction-form" method="POST" action="/predict">
+                        <div class="form-group">
+                            <label for="symptoms">Enter Symptoms (separated by commas):</label>
+                            <input type="text" class="form-control" id="symptoms" name="symptoms" placeholder="e.g., fever, headache, cough" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Predict Disease</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Symptoms List -->
+            <div class="symptoms-list-container">
+                <div class="card">
+                    <h2><span style="text-decoration: underline;font-style: italic;">List of Symptoms</span></h2>
+                    <div class="symptoms-list">
+                        <!-- Group A -->
+                        <div class="symptoms-group">
+                            <h3>A</h3>
+                            <ul>
+                                <li>Abdominal Pain</li>
+                                <li>Abnormal Menstruation</li>
+                                <li>Acidity</li>
+                                <li>Acute Liver Failure</li>
+                                <li>Altered Sensorium</li>
+                                <li>Anxiety</li>
+                            </ul>
+                        </div>
+                        <!-- Group B -->
+                        <div class="symptoms-group">
+                            <h3>B</h3>
+                            <ul>
+                                <li>Back Pain</li>
+                                <li>Belly Pain</li>
+                                <li>Blackheads</li>
+                                <li>Bladder Discomfort</li>
+                                <li>Blister</li>
+                                <li>Bloody Stool</li>
+                                <li>Blurred and Distorted Vision</li>
+                                <li>Breathlessness</li>
+                                <li>Bruising</li>
+                                <li>Burning Micturition</li>
+                            </ul>
+                        </div>
+                        <!-- Group C -->
+                        <div class="symptoms-group">
+                            <h3>C</h3>
+                            <ul>
+                                <li>Chest Pain</li>
+                                <li>Chills</li>
+                                <li>Cold Hands and Feet</li>
+                                <li>Congestion</li>
+                                <li>Continuous Feel of Urine</li>
+                                <li>Continuous Sneezing</li>
+                                <li>Constipation</li>
+                                <li>Cough</li>
+                                <li>Cramps</li>
+                            </ul>
+                        </div>
+                        <!-- Group D -->
+                        <div class="symptoms-group">
+                            <h3>D</h3>
+                            <ul>
+                                <li>Dark Urine</li>
+                                <li>Dehydration</li>
+                                <li>Depression</li>
+                                <li>Diarrhoea</li>
+                                <li>Dizziness</li>
+                                <li>Drying and Tingling Lips</li>
+                            </ul>
+                        </div>
+                        <!-- Group E -->
+                        <div class="symptoms-group">
+                            <h3>E</h3>
+                            <ul>
+                                <li>Excessive Hunger</li>
+                                <li>Extra Marital Contacts</li>
+                            </ul>
+                        </div>
+                        <!-- Group F -->
+                        <div class="symptoms-group">
+                            <h3>F</h3>
+                            <ul>
+                                <li>Fatigue</li>
+                                <li>Foul Smell of Urine</li>
+                                <li>Fast Heart Rate</li>
+                            </ul>
+                        </div>
+                        <!-- Group G -->
+                        <div class="symptoms-group">
+                            <h3>G</h3>
+                            <ul>
+                                <li>Gastrointestinal Issues</li>
+                                <li>Giddiness</li>
+                            </ul>
+                        </div>
+                        <!-- Group H -->
+                        <div class="symptoms-group">
+                            <h3>H</h3>
+                            <ul>
+                                <li>Headache</li>
+                                <li>High Fever</li>
+                                <li>Hip Joint Pain</li>
+                            </ul>
+                        </div>
+                        <!-- Group I -->
+                        <div class="symptoms-group">
+                            <h3>I</h3>
+                            <ul>
+                                <li>Indigestion</li>
+                                <li>Inflammatory Nails</li>
+                                <li>Internal Itching</li>
+                                <li>Irritability</li>
+                            </ul>
+                        </div>
+                        <!-- Group J -->
+                        <div class="symptoms-group">
+                            <h3>J</h3>
+                            <ul>
+                                <li>Joint Pain</li>
+                            </ul>
+                        </div>
+                        <!-- Group K -->
+                        <div class="symptoms-group">
+                            <h3>K</h3>
+                            <ul>
+                                <li>Knee Pain</li>
+                            </ul>
+                        </div>
+                        <!-- Group L -->
+                        <div class="symptoms-group">
+                            <h3>L</h3>
+                            <ul>
+                                <li>Lethargy</li>
+                                <li>Loss of Appetite</li>
+                                <li>Loss of Balance</li>
+                                <li>Loss of Smell</li>
+                                <li>Loss of Weight</li>
+                            </ul>
+                        </div>
+                        <!-- Group M -->
+                        <div class="symptoms-group">
+                            <h3>M</h3>
+                            <ul>
+                                <li>Malaise</li>
+                                <li>Muscle Pain</li>
+                                <li>Muscle Weakness</li>
+                            </ul>
+                        </div>
+                        <!-- Group N -->
+                        <div class="symptoms-group">
+                            <h3>N</h3>
+                            <ul>
+                                <li>Nausea</li>
+                                <li>Neck Pain</li>
+                            </ul>
+                        </div>
+                        <!-- Group O -->
+                        <div class="symptoms-group">
+                            <h3>O</h3>
+                            <ul>
+                                <li>Obesity</li>
+                            </ul>
+                        </div>
+                        <!-- Group P -->
+                        <div class="symptoms-group">
+                            <h3>P</h3>
+                            <ul>
+                                <li>Pain in Anal Region</li>
+                                <li>Pain During Bowel Movements</li>
+                                <li>Painful Walking</li>
+                                <li>Patches in Throat</li>
+                            </ul>
+                        </div>
+                        <!-- Group R -->
+                        <div class="symptoms-group">
+                            <h3>R</h3>
+                            <ul>
+                                <li>Red Sore Around Nose</li>
+                                <li>Restlessness</li>
+                                <li>Runny Nose</li>
+                            </ul>
+                        </div>
+                        <!-- Group S -->
+                        <div class="symptoms-group">
+                            <h3>S</h3>
+                            <ul>
+                                <li>Skin Rash</li>
+                                <li>Slurred Speech</li>
+                                <li>Sunken Eyes</li>
+                                <li>Swollen Legs</li>
+                            </ul>
+                        </div>
+                        <!-- Group T -->
+                        <div class="symptoms-group">
+                            <h3>T</h3>
+                            <ul>
+                                <li>Throat Irritation</li>
+                                <li>Toxic Look (Typhoid)</li>
+                            </ul>
+                        </div>
+                        <!-- Group U -->
+                        <div class="symptoms-group">
+                            <h3>U</h3>
+                            <ul>
+                                <li>Ulcers on Tongue</li>
+                                <li>Unsteadiness</li>
+                            </ul>
+                        </div>
+                        <!-- Group V -->
+                        <div class="symptoms-group">
+                            <h3>V</h3>
+                            <ul>
+                                <li>Vomiting</li>
+                                <li>Visual Disturbances</li>
+                            </ul>
+                        </div>
+                        <!-- Group W -->
+                        <div class="symptoms-group">
+                            <h3>W</h3>
+                            <ul>
+                                <li>Weakness in Limbs</li>
+                                <li>Weight Gain</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <p>&copy; Disease Prediction System. Project by: Hariharanvignesh K</p>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

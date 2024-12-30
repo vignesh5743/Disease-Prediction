@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Symptom Checker</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1, h3 {
+            color: #333;
+        }
+        .symptom-list {
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0 15px 0;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button[type="button"] {
+            background-color: #f44336;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Enter Your Symptoms</h1>
+
+    <form method="POST" action="/predict" onsubmit="return validateForm()">
+        <!-- Multi-choice checkbox list for symptoms -->
+        <div class="symptom-list">
+            <h3>Select Your Symptoms:</h3>
+            <label><input type="checkbox" value="itching" onchange="handleCheckboxChange()"> Itching</label><br>
+            <label><input type="checkbox" value="skin rash" onchange="handleCheckboxChange()"> Skin Rash</label><br>
+            <label><input type="checkbox" value="continuous sneezing" onchange="handleCheckboxChange()"> Continuous Sneezing</label><br>
+            <label><input type="checkbox" value="shivering" onchange="handleCheckboxChange()"> Shivering</label><br>
+            <label><input type="checkbox" value="chills" onchange="handleCheckboxChange()"> Chills</label><br>
+            <label><input type="checkbox" value="fever" onchange="handleCheckboxChange()"> Fever</label><br>
+            <label><input type="checkbox" value="headache" onchange="handleCheckboxChange()"> Headache</label><br>
+            <label><input type="checkbox" value="muscle pain" onchange="handleCheckboxChange()"> Muscle Pain</label><br>
+            <label><input type="checkbox" value="fatigue" onchange="handleCheckboxChange()"> Fatigue</label><br>
+            <!-- Add more checkboxes as needed -->
+        </div>
+
+        <!-- Manual input for symptoms -->
+        <div>
+            <h3>Or Enter Your Symptoms Manually:</h3>
+            <input type="text" id="symptoms-input" placeholder="e.g., fever, headache" oninput="handleCheckboxChange()">
+        </div>
+
+        <!-- Hidden input field that will contain the comma-separated symptoms to be submitted -->
+        <input type="hidden" id="symptoms-field" name="symptoms">
+
+        <div>
+            <button type="submit">Submit</button>
+            <button type="button" onclick="resetForm()">Reset</button>
+        </div>
+    </form>
+
+    <script>
+        // Function to update the input field dynamically with selected symptoms
+        function updateSymptoms() {
+            let checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+            let selectedSymptoms = [];
+
+            // Add all checked symptom values to the array
+            checkboxes.forEach(function(checkbox) {
+                selectedSymptoms.push(checkbox.value);
+            });
+
+            // Get existing manual input (split by commas and trim spaces)
+            let manualInput = document.getElementById('symptoms-input').value.split(',').map(s => s.trim()).filter(Boolean);
+
+            // Combine selected symptoms from checkboxes and manual input without duplications
+            selectedSymptoms = [...new Set([...selectedSymptoms, ...manualInput])];
+
+            // Update the visible input field with the combined symptoms
+            document.getElementById('symptoms-input').value = selectedSymptoms.join(', ');
+
+            // Update the hidden input field with the combined symptoms
+            document.getElementById('symptoms-field').value = selectedSymptoms.join(', ');
+        }
+
+        // Function to handle the checkbox changes (checked or unchecked)
+        function handleCheckboxChange() {
+            let selectedSymptoms = [];
+
+            // Get all checked checkboxes
+            let checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+            checkboxes.forEach(function(checkbox) {
+                selectedSymptoms.push(checkbox.value);
+            });
+
+            // Get manual input from the text field (split by commas and remove spaces)
+            let manualInput = document.getElementById('symptoms-input').value.split(',').map(s => s.trim()).filter(Boolean);
+
+            // Combine the selected symptoms from checkboxes and manual input
+            selectedSymptoms = [...new Set([...selectedSymptoms, ...manualInput])];
+
+            // Update the input field with the combined symptoms list
+            document.getElementById('symptoms-input').value = selectedSymptoms.join(', ');
+
+            // Update the hidden input field with the combined symptoms list
+            document.getElementById('symptoms-field').value = selectedSymptoms.join(', ');
+        }
+
+        // Reset the form and uncheck all checkboxes when the user clicks reset
+        function resetForm() {
+            document.querySelectorAll('input[type="checkbox"]').forEach(el => el.checked = false);
+            document.getElementById('symptoms-input').value = '';
+            document.getElementById('symptoms-field').value = '';
+        }
+
+        // Validate before submitting the form
+        function validateForm() {
+            // Ensure there are symptoms selected or inputted before submission
+            let symptoms = document.getElementById('symptoms-field').value.trim();
+            if (symptoms === '') {
+                alert('Please select or enter symptoms.');
+                return false;
+            }
+            return true;
+        }
+    </script>
+
+</body>
+</html>

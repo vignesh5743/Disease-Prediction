@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disease Prediction Result</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Body Styling */
+        body {
+            background-image: url('static/bg3.jpg');
+            background-size: cover;
+            background-position: center;
+            background-color: rgba(0, 0, 0, 0.6);
+            background-blend-mode: overlay;
+            font-family: 'Arial', sans-serif;
+            color: #f8f9fa;
+        }
+
+        /* Container Styling */
+        .container {
+            margin-top: 50px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .card {
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.6);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.8rem;
+            color: #fff;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        h4 {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #f8f9fa;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+            text-decoration: underline;
+        }
+
+        p, li {
+            font-size: 1rem;
+            color: #f1f1f1;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        /* Alert Styling */
+        .alert {
+            background-color: rgba(0, 123, 255, 0.3);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+        }
+
+        /* Button Styling */
+        .btn {
+            background-color: rgba(16, 4, 95, 0.7);
+            border: none;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 1rem;
+            color: white;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .alert-info, .card h4, .card p, .card li {
+            cursor: pointer;
+        }
+
+
+        .btn:hover {
+            background-color: rgba(16, 4, 95, 0.5);
+            transform: scale(1.05);
+        }
+
+        /* Footer Styling */
+        .footer {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 2px;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            color: #f8f9fa;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h2>Prediction Result</h2>
+            <div class="alert alert-info" role="alert">
+                <strong>Predicted Disease:</strong> {{ predicted_disease }}
+            </div>
+            <h4>Description:</h4>
+            <p>{{ details.description }}</p>
+            
+            <h4>Precautions:</h4>
+            <ul>
+                {% for precaution in details.precautions[0] %}
+                    <li>{{ precaution }}</li>
+                {% endfor %}
+            </ul>
+            
+            <h4>Medications:</h4>
+            <p>{{ details.medications[0] }}</p>
+            
+            <h4>Diet Suggestions:</h4>
+            <p>{{ details.diet[0] }}</p>
+            
+            <h4>Do & Don't:</h4>
+            <p>{{ details.workout[0] }}</p>
+            
+            <a href="/" class="btn btn-primary btn-block">Go Back</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; Disease Prediction System. Project by: Hariharanvignesh K</p>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
