@@ -1,3 +1,5 @@
 Flask
 pandas
+pickle5
+scikit-learn
 fuzzywuzzy
